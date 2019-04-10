@@ -10,6 +10,7 @@ function Gallery(horn) {
 
 
 Gallery.allHorns = [];
+
 Gallery.prototype.render = function () {
     $('main').append('<div class="clone"></div>');
     let hornClone = $('div[class="clone"]');
@@ -42,3 +43,21 @@ Gallery.loadHorns = () => {
 }
 
 $(()=> Gallery.readJson());
+
+
+Gallery.loadKeyword = () => {
+
+   Gallery.allHorns.forEach(horn => {
+         console.log(horn);
+  //for(let i = 0; i<Gallery.allHorns.length; i++ ){
+    
+      $('select').append(`<option value="${horn.keyword}">${horn.keyword}</option>`);
+    
+    });
+  
+  };
+  $(()=> Gallery.readJson());
+//   $(function() {
+// 	alert($("#name").val());
+// });
+  

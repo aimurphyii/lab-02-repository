@@ -26,7 +26,7 @@ Gallery.prototype.render = function () {
 }
 
 Gallery.readJson = () => {
-    $.get('data.json', 'json')
+    $.get('../data/page-1.json', 'json')
     .then(data => {
         data.forEach(item => {
             Gallery.allHorns.push (new Gallery(item));

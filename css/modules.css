@@ -1,0 +1,45 @@
+.img{
+  width: 10px;
+  margin:10px;
+  padding:10px;
+  text-align: center;
+  background: rgba(52, 18, 7, 0.61);
+  color:white;
+  width: 150px;
+  height: 200px;
+  overflow: hidden;
+  float: left;
+  /* border-radius: 15%; */
+}
+
+img{
+  width:100px;
+}
+
+#gallery{
+  background: rgba(59, 21, 9, 0.61);
+}
+
+@media(min-width: 480px){
+#gallery{
+  width: 384px;
+  margin: 0 auto; 
+  overflow: hidden;
+  }
+}
+
+@media(min-width: 720px){
+  #gallery{
+    width: 576px;
+    margin: 0 auto; 
+    overflow: hidden;
+  }
+}
+
+@media(min-width: 960px){
+  #gallery{
+    width: 762px;
+    margin: 0 auto; 
+    overflow: hidden;
+  }
+}

@@ -28,36 +28,49 @@ Gallery.prototype.render = function () {
 
 Gallery.readJson = () => {
     $.get('../data/page-1.json', 'json')
-    .then(data => {
-        data.forEach(item => {
-            Gallery.allHorns.push (new Gallery(item));
+        .then(data => {
+            data.forEach(item => {
+                Gallery.allHorns.push(new Gallery(item));
+            })
         })
-    })
 
-    .then(Gallery.loadHorns)
+        .then(Gallery.loadHorns)
+        .then(Gallery.loadKeywords)
+        .then(Gallery.populateFilter)
+
 }
 
 Gallery.loadHorns = () => {
-    Gallery.allHorns.forEach(horn=> horn.render())
+    Gallery.allHorns.forEach(horn => horn.render())
 
 }
 
-$(()=> Gallery.readJson());
+Gallery.loadKeywords = () => {
 
-
-Gallery.loadKeyword = () => {
-
-   Gallery.allHorns.forEach(horn => {
-         console.log(horn);
-  //for(let i = 0; i<Gallery.allHorns.length; i++ ){
-    
-      $('select').append(`<option value="${horn.keyword}">${horn.keyword}</option>`);
-    
+    let filterKeywords = [];
+    $('option').not('first').remove();
+    Gallery.allHorns.forEach(horn => {
+        if (!filterKeywords.includes(horn.keyword))
+        filterKeywords.push(horn.keyword);
     });
-  
-  };
-  $(()=> Gallery.readJson());
-//   $(function() {
-// 	alert($("#name").val());
-// });
-  
+
+    let filterkeywords = [];
+    filterkeywords.sort();
+
+    filterKeywords.forEach(keyword => {
+        let optionTag = `<option value = "${keyword}">${keyword}</option>`;
+        $('select').append(optionTag);
+    });
+
+}
+
+
+
+$(() => Gallery.readJson());
+
+
+
+
+
+
+

@@ -10,6 +10,7 @@ function Gallery(horn) {
 
 
 Gallery.allHorns = [];
+
 Gallery.prototype.render = function () {
     $('main').append('<div class="clone"></div>');
     let hornClone = $('div[class="clone"]');
@@ -27,18 +28,49 @@ Gallery.prototype.render = function () {
 
 Gallery.readJson = () => {
     $.get('../data/page-1.json', 'json')
-    .then(data => {
-        data.forEach(item => {
-            Gallery.allHorns.push (new Gallery(item));
+        .then(data => {
+            data.forEach(item => {
+                Gallery.allHorns.push(new Gallery(item));
+            })
         })
-    })
 
-    .then(Gallery.loadHorns)
+        .then(Gallery.loadHorns)
+        .then(Gallery.loadKeywords)
+        .then(Gallery.populateFilter)
+
 }
 
 Gallery.loadHorns = () => {
-    Gallery.allHorns.forEach(horn=> horn.render())
+    Gallery.allHorns.forEach(horn => horn.render())
 
 }
 
-$(()=> Gallery.readJson());
+Gallery.loadKeywords = () => {
+
+    let filterKeywords = [];
+    $('option').not('first').remove();
+    Gallery.allHorns.forEach(horn => {
+        if (!filterKeywords.includes(horn.keyword))
+        filterKeywords.push(horn.keyword);
+    });
+
+    let filterkeywords = [];
+    filterkeywords.sort();
+
+    filterKeywords.forEach(keyword => {
+        let optionTag = `<option value = "${keyword}">${keyword}</option>`;
+        $('select').append(optionTag);
+    });
+
+}
+
+
+
+$(() => Gallery.readJson());
+
+
+
+
+
+
+

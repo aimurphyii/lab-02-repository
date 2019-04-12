@@ -81,7 +81,6 @@ Gallery.loadKeywords = () => {
         let optionTag = `<option value = "${keyword}">${keyword}</option>`;
         $('select').append(optionTag);
     });
-
 }
 
 Gallery.handleFilter = () => {

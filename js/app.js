@@ -42,7 +42,7 @@ Gallery.prototype.render = function () {
 // now we need to get the data to run this operation
 Gallery.readJson = () =>{
     // we get json file form our dir
-    $.get('../data/page-1.json', 'json')
+    $.get('/data/page-1.json', 'json')
 
 
         .then(data => {
@@ -62,7 +62,6 @@ Gallery.readJson = () =>{
 Gallery.loadHorns = () => {
     Gallery.allHorns.forEach(horn => horn.render())
 }
-
 
 
 Gallery.loadKeywords = () => {

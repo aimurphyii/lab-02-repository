@@ -68,7 +68,7 @@ Gallery.loadHorns = () => {
 Gallery.loadKeywords = () => {
 
     let filterKeywords = [];
-    $('option').not('first').remove();
+    $('option').not(':first').remove();
     Gallery.allHorns.forEach(horn => {
         if (!filterKeywords.includes(horn.keyword))
         filterKeywords.push(horn.keyword);

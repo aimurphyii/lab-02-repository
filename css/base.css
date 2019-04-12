@@ -1,7 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css?family=Amatic+SC|Berkshire+Swash|Delius+Unicase|Fondamento|Grand+Hotel|Patrick+Hand|Patrick+Hand+SC');
 
-
 body{
   /* background: url(https://images.unsplash.com/photo-1514575619841-1a3d949d3277?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=882&q=80); */
   background: url(https://images.unsplash.com/photo-1492892132812-a00a8b245c45?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80);
@@ -17,7 +16,7 @@ body{
   font-family: 'Delius Unicase', cursive; */
   color: white;
   text-align: center;
-  /* background-attachment: fixed;  */
+  background-attachment: fixed; 
 }
 h1{
   margin:10px;
@@ -33,4 +32,8 @@ footer{
 }
 p{
   font-family: 'Patrick Hand SC', cursive;
+}
+nav{
+  padding: 10px;
+  clear: both;
 }

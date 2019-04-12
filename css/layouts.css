@@ -1,24 +1,14 @@
 header select {
-    max-width: 20%;
-    margin:0px auto;
-    padding: 0 0 .2em 1em;
+  max-width: 20%;
+  margin:0px auto;
+  padding: 0 0 .2em 1em;
 }
   
 select {
-    width: 90%;
-    margin: .2em 5%;
+  width: 90%;
+  margin: .2em 5%;
 }
 main img {
-    max-width: 10%;
-    padding: 0.5em 0.5em 0.5em 0em;
-  }
-  
-  .clearfix::after {
-  
-    content: "";
-  
-    display: table;
-  
-    clear: both;
-  
-  }
+  max-width: 10%;
+  padding: 0.5em 0.5em 0.5em 0em;
+}

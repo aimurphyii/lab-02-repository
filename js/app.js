@@ -16,10 +16,13 @@ function HornsGalleryItem(horndata) {
 // once we create the object, we will store them in this array to call through as needed
 HornsGalleryItem.catalogue=[];
 
-let selectOptions=[];
 
+Gallery.allHorns = [];
 
-// we want to create a protoype that will give our objects a method that allows them to display
+Gallery.prototype.render = function () {
+    $('main').append('<div class="clone"></div>');
+    let hornClone = $('div[class="clone"]');
+
 
 HornsGalleryItem.prototype.render = function(){
 
@@ -50,41 +53,45 @@ HornsGalleryItem.prototype.render = function(){
 HornsGalleryItem.readJson = () =>{
     // we get json file form our dir
     $.get('../data/page-1.json', 'json')
-    // once we have it we will create a new item and push it into our catalogue and each item is going to recieve the data from the json file
-    .then(data=>{
-        data.forEach(item => {
-            HornsGalleryItem.catalogue.push(new HornsGalleryItem(item));
-            
-        });
-    })
-    // then once everything is allocated we will load it to the page
-    .then(HornsGalleryItem.loadGallery)
+
+
+        .then(data => {
+            data.forEach(item => {
+                Gallery.allHorns.push(new Gallery(item));
+            })
+        })
+
+        .then(Gallery.loadHorns)
+        .then(Gallery.loadKeywords)
+        .then(Gallery.populateFilter)
+
 }
-// this is where we load our parameter from the constructor and render for each one
-HornsGalleryItem.loadGallery=()=>{
-    HornsGalleryItem.catalogue.forEach(horndata=>horndata.render())
+
+Gallery.loadHorns = () => {
+    Gallery.allHorns.forEach(horn => horn.render())
+
+
+
+
+Gallery.loadKeywords = () => {
+
+    let filterKeywords = [];
+    $('option').not('first').remove();
+    Gallery.allHorns.forEach(horn => {
+        if (!filterKeywords.includes(horn.keyword))
+        filterKeywords.push(horn.keyword);
+    });
+
+    let filterkeywords = [];
+    filterkeywords.sort();
+
+    filterKeywords.forEach(keyword => {
+        let optionTag = `<option value = "${keyword}">${keyword}</option>`;
+        $('select').append(optionTag);
+    });
+
 }
 
-$(()=>HornsGalleryItem.readJson())
-
-// i need to make a selector with options that match my keywords. I can grab keywords from catalogue.
-function getKey(arr){
-    for(let i = 0; i < arr.length; i++){
-        selectOptions.push(arr[i].keyword);
-    };
-}
-getKey(HornsGalleryItem.catalogue);
 
 
-// well, once i figure out keywords, I will need to select them, so at least I can do that.
-// select box filtering
-// this will be helpful for horns.
-// what ever name gets SELECTED, 
-$('select[name="filter-key"]').on('change', function () {
-    // when it changes on change, itll get the value, hide all images, and get class (img attribute in html)
-    let $selection = $(this).val();
-    // here: hide first
-    $('img').hide()
-    // here: display whatever has this value attribute
-    $(`img[class="${$selection}"]`).show()
-  })
+$(() => Gallery.readJson());

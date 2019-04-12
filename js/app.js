@@ -64,7 +64,6 @@ Gallery.loadHorns = () => {
 }
 
 
-
 Gallery.loadKeywords = () => {
     let filterKeywords = [];
     $('option').not(':first').remove();

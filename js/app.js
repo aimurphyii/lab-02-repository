@@ -35,10 +35,12 @@ Gallery.prototype.render = function () {
     let hornClone = $('div[class="clone"]');
 
 
-    // we are going to get main from the dom, and inside of main we are going to add in new div elements conatining data from out gallery objects
+    // we are going to get main from the dom, and inside of main we are going to add in new div elements conatining data from out gallery objects--now with handlebars...
 
     let hornItemHtml = $('#photo-template').html();
-// the copied html pattern is now the skeleton of our newly created horn item div
+    
+    // the copied html pattern is now the skeleton of our newly created horn item div
+
     hornClone.html(hornItemHtml);
 
     // at this point we will find each element and rewrite it

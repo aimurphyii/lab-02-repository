@@ -40,6 +40,12 @@ img{
   background: rgba(59, 21, 9, 0.61);
 }
 
+.tab-content{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 /* breakpoints */
 @media(min-width: 480px){
 #gallery{

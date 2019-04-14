@@ -1,4 +1,22 @@
 
+/* Pagination*/
+nav a {
+  color: white;
+  /* clear:both;
+  display: block; */
+  padding: 5px 10px;
+  text-decoration: none;
+  transition: background-color 800ms;
+}
+
+nav a.active {
+  background-color:  rgba(52, 18, 7, 0.61);
+  color: white;
+}
+
+nav a:hover:not(.active) {background-color: rgba(255, 255, 255, 0.502);}
+
+/* horn gallery items */
 div{
   width: 10px;
   margin:10px;
@@ -17,10 +35,18 @@ img{
   width:100px;
 }
 
+/* gallery section */
 #gallery{
   background: rgba(59, 21, 9, 0.61);
 }
 
+.tab-content{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/* breakpoints */
 @media(min-width: 480px){
 #gallery{
   width: 384px;

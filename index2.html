@@ -11,14 +11,6 @@
     <link rel="stylesheet" type="text/css" href="css/layout.css"/>
     <link rel="stylesheet" type="text/css" href="css/modules.css"/>
 
-    <script id="horns-template" type="text/x-handlebars-template">
-      <div>
-          <h2>{{title}}</h2>
-          <img src="{{{image_url}}}">
-          <p>{{description}}</p>
-      </div>
-      </script>
-
   </head>
   <body>
     <section id="gallery">
@@ -31,8 +23,12 @@
       </select>
     </header>
     <main>
+      <section id="photo-template">
+        <h2></h2>
+        <img src="" alt="">
+        <p></p>
+      </section>
       <section id="page-1" class="tab-content"></section>
-
       <section id="page-2" class="tab-content"></section>
     </main>
     <nav class="pagination">
@@ -44,7 +40,7 @@
     </footer>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
-    <script type="text/javascript" src="js/appb.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
     </section>
   </body>
 </html>

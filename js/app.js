@@ -61,7 +61,7 @@ Gallery.prototype.render = function () {
 // now we need to get the data to run this 
 Gallery.readJson = () =>{
     // we get json file form our dir
-    $.get('/data/page-1.json', 'json')
+    $.get('/lab-02-repository/data/page-1.json', 'json')
 
         .then(data => {
             data.forEach(item => {
@@ -132,8 +132,10 @@ Gallery.handleFilter = () => {
 
 $(() => Gallery.readJson());
 
+
 // DOM-ready function
 $(document).ready(function () {
     $('#page-2').hide()
   })
   
+

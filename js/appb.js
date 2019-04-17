@@ -12,9 +12,10 @@ function Gallery(horn) {
     }
 }
 
-// once we create the object, we will store them in this array to call through as needed
+// once we create the object, we will store them in this array to call through as needed, but separately for each json page
 
-Gallery.allHorns = [];
+Gallery.allHorns1 = [];
+Gallery.allHorns2 = [];
 
 // nav handler
 $('nav a').on('click', function () {
@@ -22,7 +23,7 @@ $('nav a').on('click', function () {
     // what is $whereToGo
     // gives us 'delegation' or 'attributes'
     console.log('page one or page two', $oneOrTwo);
-    $('.tab-content').hide();
+    $('.content').hide();
     // we want $('#delegation')
     $('#' + $oneOrTwo).fadeIn(750)
 })
@@ -32,50 +33,49 @@ Gallery.prototype.toHtml = function () {
   // we are going to get main from the dom, and inside of main we are going to add in new div elements conatining data from out gallery objects--now with handlebars...
 
   let $hbarTemplate = $('#horns-template').html();
-  console.log('template source', $hbarTemplate);
+  // console.log('template source', $hbarTemplate);
   // the copied html pattern is now the skeleton of our newly created horn item div
-  let compiledTemplate =Handlebars.compile($hbarTemplate);
-  console.log(compiledTemplate);
+  let compiledTemplate = Handlebars.compile($hbarTemplate);
+  // console.log(compiledTemplate);
 
   return compiledTemplate(this);
 }
 
 // one page at a time
-// let p1 = '/data/page-1.json';
-// let p2 = '/data/page-2.json';
-// let tab1 = $('#page1');
-// let tab2 = $('#page2');
+let jp1 = '/data/page-1.json';
+let jp2 = '/data/page-2.json';
+let tab1 = $('#one');
+let tab2 = $('#two');
 
 
 // now we need to get the data to run this 
-Gallery.readJson = () => {
-  // we get json file form our dir
-  $.get('/data/page-1.json', 'json')
-
+Gallery.readJson = (jpage, galleryset, place, filter) => {
+  // we are going to grab a json file to run through our constructor
+  $.get(jpage, 'json')
+// s ogo and get that info then...
     .then(data => {
+      // for each item we have in json we are going to run through our constructor and push it into our gallery catalogue
       data.forEach(item => {
-        Gallery.allHorns.push(new Gallery(item));
+        galleryset.push(new Gallery(item));
       })
     })
-  // if you wanted it all to run together
-  $.get('/data/page-2.json', 'json')
+    //then we want ot send them to the html
 
-    .then(data => {
-      data.forEach(item => {
-        Gallery.allHorns.push(new Gallery(item));
-      })
-    })
-
-    .then(Gallery.loadHorns)
+    .then(place)
     .then(Gallery.loadKeywords)
-    .then(Gallery.populateFilter)
-    .then(Gallery.handleFilter)
+    // .then(Gallery.populateFilter)
+    .then(filter)
 }
 
 
-Gallery.loadHorns = () => {
-  Gallery.allHorns.forEach(hornItem=>{
-    $('#page-1').append(hornItem.toHtml());
+Gallery.loadHorns1 = () => {
+  Gallery.allHorns1.forEach(hornItem=>{
+    $('#one').append(hornItem.toHtml());
+  })
+}
+Gallery.loadHorns2 = () => {
+  Gallery.allHorns2.forEach(hornItem=>{
+    $('#two').append(hornItem.toHtml());
   })
 }
 
@@ -83,43 +83,69 @@ Gallery.loadHorns = () => {
 Gallery.loadKeywords = () => {
     let filterKeywords = [];
     $('option').not(':first').remove();
-    Gallery.allHorns.forEach(horn => {
+    Gallery.allHorns1.forEach(horn => {
         if (!filterKeywords.includes(horn.keyword))
         filterKeywords.push(horn.keyword);
     });
-
+    Gallery.allHorns2.forEach(horn => {
+      if (!filterKeywords.includes(horn.keyword))
+      filterKeywords.push(horn.keyword);
+  });
     let filterkeywords = [];
     filterkeywords.sort();
 
     filterKeywords.forEach(keyword => {
         let optionTag = `<option value = "${keyword}">${keyword}</option>`;
         $('select').append(optionTag);
+        console.log(filterKeywords);
     });
 }
 
-Gallery.handleFilter = () => {
+Gallery.handleFilter1 = () => {
   $('select').on('change', function () {
     let $selected = $(this).val();
     console.log('selected is ', $selected);
     if ($selected !== 'default') {
 
-      Gallery.allHorns.forEach(horn => {
+      Gallery.allHorns1.forEach(horn => {
 
         if ($selected === horn.keyword) {
           console.log($selected);
-          $('div').hide();
-          $(`.${$selected}`).fadeIn();
-          console.log('here i am at ',horn.keyword);
+          $('div').attr("style", "display: none");
+          $(`.${$selected}`).attr("style", "display: block")
+          console.log('here i am at ',horn.keyword, $selected);
         }
       });
     }
   })
 }
 
-$(() => Gallery.readJson());
+Gallery.handleFilter2 = () => {
+  $('select').on('change', function () {
+    let $selected = $(this).val();
+    console.log('selected is ', $selected);
+    if ($selected !== 'default') {
+
+      Gallery.allHorns2.forEach(horn => {
+
+        if ($selected === horn.keyword) {
+          console.log($selected);
+          $('div').attr("style", "display: none");
+          $(`.${$selected}`).attr("style", "display: block")
+          console.log('here i am at ',horn.keyword, $selected);
+        }
+      });
+    }
+  })
+}
+
+
+$(() => Gallery.readJson(jp1, Gallery.allHorns1, Gallery.loadHorns1, Gallery.handleFilter1));
+
+$(() => Gallery.readJson(jp2, Gallery.allHorns2, Gallery.loadHorns2, Gallery.handleFilter2));
 
 
 // DOM-ready function
 $(document).ready(function () {
-  $('#page-2').hide()
+  $('#two').hide()
 })

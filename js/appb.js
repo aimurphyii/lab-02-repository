@@ -42,8 +42,8 @@ Gallery.prototype.toHtml = function () {
 }
 
 // one page at a time
-let jp1 = '/data/page-1.json';
-let jp2 = '/data/page-2.json';
+let jp1 = '/lab-02-repository/data/page-1.json';
+let jp2 = '/lab-02-repository/data/page-2.json';
 let tab1 = $('#one');
 let tab2 = $('#two');
 

@@ -42,14 +42,14 @@ img{
   background: rgba(59, 21, 9, 0.61);
 }
 
-.tab-content{
+.content{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
 /* breakpoints */
-@media(min-width: 480px){
+ @media(min-width: 480px){
 #gallery{
   width: 384px;
   margin: 0 auto; 

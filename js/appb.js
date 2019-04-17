@@ -14,7 +14,8 @@ function Gallery(horn) {
 
 // once we create the object, we will store them in this array to call through as needed
 
-Gallery.allHorns = [];
+Gallery.allHorns1 = [];
+Gallery.allHorns2 = [];
 
 // nav handler
 $('nav a').on('click', function () {
@@ -22,7 +23,7 @@ $('nav a').on('click', function () {
     // what is $whereToGo
     // gives us 'delegation' or 'attributes'
     console.log('page one or page two', $oneOrTwo);
-    $('.tab-content').hide();
+    $('.content').hide();
     // we want $('#delegation')
     $('#' + $oneOrTwo).fadeIn(750)
 })
@@ -34,92 +35,126 @@ Gallery.prototype.toHtml = function () {
   let $hbarTemplate = $('#horns-template').html();
   console.log('template source', $hbarTemplate);
   // the copied html pattern is now the skeleton of our newly created horn item div
-  let compiledTemplate =Handlebars.compile($hbarTemplate);
+  let compiledTemplate = Handlebars.compile($hbarTemplate);
   console.log(compiledTemplate);
 
   return compiledTemplate(this);
 }
 
 // one page at a time
-// let p1 = '/data/page-1.json';
-// let p2 = '/data/page-2.json';
-// let tab1 = $('#page1');
-// let tab2 = $('#page2');
+let jp1 = '/data/page-1.json';
+let jp2 = '/data/page-2.json';
+let tab1 = $('#one');
+let tab2 = $('two');
 
 
 // now we need to get the data to run this 
-Gallery.readJson = () => {
-  // we get json file form our dir
-  $.get('/data/page-1.json', 'json')
-
+Gallery.readJson = (jpage, galleryset, place) => {
+  // we are going to grab a json file to run through our constructor
+  $.get(jpage, 'json')
+// s ogo and get that info then...
     .then(data => {
+      // for each item we have in json we are going to run through our constructor and push it into our gallery catalogue
       data.forEach(item => {
-        Gallery.allHorns.push(new Gallery(item));
+        galleryset.push(new Gallery(item));
       })
     })
-  // if you wanted it all to run together
-  $.get('/data/page-2.json', 'json')
+    //then we want ot send them to the html
 
-    .then(data => {
-      data.forEach(item => {
-        Gallery.allHorns.push(new Gallery(item));
-      })
-    })
-
-    .then(Gallery.loadHorns)
-    .then(Gallery.loadKeywords)
-    .then(Gallery.populateFilter)
-    .then(Gallery.handleFilter)
-}
-
-
-Gallery.loadHorns = () => {
-  Gallery.allHorns.forEach(hornItem=>{
-    $('#page-1').append(hornItem.toHtml());
-  })
-}
-
-
-Gallery.loadKeywords = () => {
-    let filterKeywords = [];
-    $('option').not(':first').remove();
-    Gallery.allHorns.forEach(horn => {
-        if (!filterKeywords.includes(horn.keyword))
-        filterKeywords.push(horn.keyword);
-    });
-
-    let filterkeywords = [];
-    filterkeywords.sort();
-
-    filterKeywords.forEach(keyword => {
-        let optionTag = `<option value = "${keyword}">${keyword}</option>`;
-        $('select').append(optionTag);
-    });
-}
-
-Gallery.handleFilter = () => {
-  $('select').on('change', function () {
-    let $selected = $(this).val();
-    console.log('selected is ', $selected);
-    if ($selected !== 'default') {
-
-      Gallery.allHorns.forEach(horn => {
-
-        if ($selected === horn.keyword) {
-          console.log($selected);
-          $('div').hide();
-          $(`.${$selected}`).fadeIn();
-          console.log('here i am at ',horn.keyword);
-        }
+    .then(place)
+    .then(Gallery.loadKeywords = (galleryset) => {
+      let filterKeywords = [];
+      $('option').not(':first').remove();
+      galleryset.forEach(horn => {
+          if (!filterKeywords.includes(horn.keyword))
+          filterKeywords.push(horn.keyword);
       });
-    }
+  
+      let filterkeywords = [];
+      filterkeywords.sort();
+  
+      filterKeywords.forEach(keyword => {
+          let optionTag = `<option value = "${keyword}">${keyword}</option>`;
+          $('select').append(optionTag);
+          console.log(filterKeywords);
+      });
+  })
+    .then(Gallery.populateFilter)
+    .then(Gallery.handleFilter = (galleryset) => {
+      $('select').on('change', function () {
+        let $selected = $(this).val();
+        console.log('selected is ', $selected);
+        if ($selected !== 'default') {
+    
+          galleryset.forEach(horn => {
+    
+            if ($selected === horn.keyword) {
+              console.log($selected);
+              $('div').attr("style", "display: none");
+              $(`.${$selected}`).attr("style", "display: block")
+              console.log('here i am at ',horn.keyword, $selected);
+            }
+          });
+        }
+      })
+    })
+}
+
+
+Gallery.loadHorns1 = () => {
+  Gallery.allHorns1.forEach(hornItem=>{
+    $('#one').append(hornItem.toHtml());
+  })
+}
+Gallery.loadHorns2 = () => {
+  Gallery.allHorns2.forEach(hornItem=>{
+    $('#two').append(hornItem.toHtml());
   })
 }
 
-$(() => Gallery.readJson());
+
+// Gallery.loadKeywords = () => {
+//     let filterKeywords = [];
+//     $('option').not(':first').remove();
+//     Gallery.allHorns1.forEach(horn => {
+//         if (!filterKeywords.includes(horn.keyword))
+//         filterKeywords.push(horn.keyword);
+//     });
+
+//     let filterkeywords = [];
+//     filterkeywords.sort();
+
+//     filterKeywords.forEach(keyword => {
+//         let optionTag = `<option value = "${keyword}">${keyword}</option>`;
+//         $('select').append(optionTag);
+//         console.log(filterKeywords);
+//     });
+// }
+
+// Gallery.handleFilter = (galleryset) => {
+//   $('select').on('change', function () {
+//     let $selected = $(this).val();
+//     console.log('selected is ', $selected);
+//     if ($selected !== 'default') {
+
+//       galleryset.forEach(horn => {
+
+//         if ($selected === horn.keyword) {
+//           console.log($selected);
+//           $('div').attr("style", "display: none");
+//           $(`.${$selected}`).attr("style", "display: block")
+//           console.log('here i am at ',horn.keyword, $selected);
+//         }
+//       });
+//     }
+//   })
+// }
+
+$(() => Gallery.readJson(jp1, Gallery.allHorns1, Gallery.loadHorns1));
+$(() => Gallery.readJson(jp2, Gallery.allHorns2, Gallery.loadHorns2));
 
 
 // DOM-ready function
 $(document).ready(function () {
-  $('#page-2').hide()
+  $('#two').hide()
 })

@@ -14,7 +14,9 @@ nav a.active {
   color: white;
 }
 
-nav a:hover:not(.active) {background-color: rgba(255, 255, 255, 0.502);}
+nav a:hover:not(.active) {
+  background-color: rgba(255, 255, 255, 0.502);
+}
 
 /* horn gallery items */
 div{
